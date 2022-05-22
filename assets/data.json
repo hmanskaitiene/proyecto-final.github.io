@@ -1,0 +1,93 @@
+[
+    {
+        "id": 1,
+        "nombre":"Internet 50MB",
+        "descripcion": "<ul><li><i class='bi bi-download'></i>&nbsp;<span>Velocidad de bajada hasta 50 Megas</span></li><li><i class='bi bi-wifi'></i>&nbsp;<span>Módem WiFi</span></li>",
+        "precio": 1990,
+        "categoria":"INTERNET"
+    },
+    {
+        "id": 2,
+        "nombre":"Internet 100MB",
+        "descripcion": "<ul><li><i class='bi bi-download'></i>&nbsp;<span>Velocidad de bajada hasta 100 Megas</span></li><li><i class='bi bi-wifi'></i>&nbsp;<span>Módem WiFi</span></li>",
+        "precio": 2290,
+        "categoria":"INTERNET"
+    },
+    {
+        "id": 3,
+        "nombre":"Internet 200MB",
+        "descripcion": "<ul><li><i class='bi bi-download'></i>&nbsp;<span>Velocidad de bajada hasta 200 Megas</span></li><li><i class='bi bi-wifi'></i>&nbsp;<span>Módem WiFi</span></li>",
+        "precio": 2790,
+        "categoria":"INTERNET"
+    },
+    {
+        "id": 4,
+        "nombre":"Internet 250MB",
+        "descripcion": "<ul><li><i class='bi bi-download'></i>&nbsp;<span>Velocidad de bajada hasta 250 Megas</span></li><li><i class='bi bi-wifi'></i>&nbsp;<span>Módem WiFi</span></li>",
+        "precio": 2990,
+        "categoria":"INTERNET"
+    },
+    {
+        "id": 5,
+        "nombre":"Internet 300MB",
+        "descripcion": "<ul><li><i class='bi bi-download'></i>&nbsp;<span>Velocidad de bajada hasta 300 Megas</span></li><li><i class='bi bi-wifi'></i>&nbsp;<span>Módem WiFi</span></li>",
+        "precio": 3100,
+        "categoria":"INTERNET"
+    },
+    {
+        "id": 6,
+        "nombre":"Móvil 3 GB + Internet 50 MB",
+        "descripcion": "<ul><i class='bi bi-telephone'></i>&nbsp;<span>Plan 3 GB</span></li><li><i class='bi bi-download'></i>&nbsp;<span>Velocidad de bajada hasta 50 Megas</span></li><li><i class='bi bi-wifi'></i>&nbsp;<span>Módem WiFi</span></li>",
+        "precio": 1990,
+        "categoria":"COMBOS"
+    },
+    {
+        "id": 7,
+        "nombre":"Internet 100 MB + Streaming",
+        "descripcion": "<ul><li><i class='bi bi-download'></i>&nbsp;<span>Velocidad de bajada hasta 100 Megas</span></li><li><i class='bi bi-wifi'></i>&nbsp;<span>Módem WiFi</span></li><li><i class='bi bi-tv'></i>&nbsp;<span>TV en vivo y contenidos de entretenimiento</span></li>",
+        "precio": 2490,
+        "categoria":"COMBOS"
+    },
+    {
+        "id": 8,
+        "nombre":"Internet 100 MB + Streaming + Móvil 3 GB",
+        "descripcion": "<ul><li><i class='bi bi-download'></i>&nbsp;<span>Velocidad de bajada hasta 300 Megas</span></li><li><i class='bi bi-wifi'></i>&nbsp;<span>Módem WiFi</span></li><i class='bi bi-telephone'></i>&nbsp;<span>Plan 3 GB</span></li><li><i class='bi bi-tv'></i>&nbsp;<span>TV en vivo y contenidos de entretenimiento</span></li>",
+        "precio": 2990,
+        "categoria":"COMBOS"
+    },
+    {
+        "id": 9,
+        "nombre":"Streaming",
+        "descripcion": "<ul><li><i class='bi bi-tv'></i>&nbsp;<span>TV en vivo y contenidos de entretenimiento</span></li><li><i class='bi bi-play-btn-fill'></i>&nbsp;<span>Pausá, retrocedé, grabá y accedé a contenidos cuando quieras</span></li>",
+        "precio": 1990,
+        "categoria":"STREAMING"
+    },
+    {
+        "id": 10,
+        "nombre":"TV Clásico",
+        "descripcion": "<ul><li><i class='bi bi-tv-fill'></i>&nbsp;<span>TV en vivo con más de 60 canales</span></li><li><i class='bi bi-people-fill'></i>&nbsp;<span>Programación para toda la familia</span></li>",
+        "precio": 2490,
+        "categoria":"STREAMING"
+    },
+    {
+        "id": 11,
+        "nombre":"Móvil 3GB",
+        "descripcion": "<ul><li><i class='bi bi-whatsapp'></i>&nbsp;<span>WhatsApp gratis</span></li><li><i class='bi bi-cloud'></i>&nbsp;<span>3 GB cuota de datos incluida</span></li><li><i class='bi bi-telephone'></i>&nbsp;<span>Llamadas ilimitadas a cualquier compañía</span></li><li><i class='bi bi-emoji-wink'></i>&nbsp;<span>30 GB de regalo en tu línea móvil</span></li>",
+        "precio": 1500,
+        "categoria":"PORTABILIDAD"
+    },
+    {
+        "id": 12,
+        "nombre":"Móvil 5GB",
+        "descripcion": "<ul><li><i class='bi bi-whatsapp'></i>&nbsp;<span>WhatsApp gratis</span></li><li><i class='bi bi-cloud'></i>&nbsp;<span>5 GB cuota de datos incluida</span></li><li><i class='bi bi-telephone'></i>&nbsp;<span>Llamadas ilimitadas a cualquier compañía</span></li><li><i class='bi bi-emoji-wink'></i>&nbsp;<span>30 GB de regalo en tu línea móvil</span></li>",
+        "precio": 2000,
+        "categoria":"PORTABILIDAD"
+    },
+    {
+        "id": 13,
+        "nombre":"Móvil 8GB",
+        "descripcion": "<ul><li><i class='bi bi-whatsapp'></i>&nbsp;<span>WhatsApp gratis</span></li><li><i class='bi bi-cloud'></i>&nbsp;<span>8 GB cuota de datos incluida</span></li><li><i class='bi bi-telephone'></i>&nbsp;<span>Llamadas ilimitadas a cualquier compañía</span></li><li><i class='bi bi-emoji-wink'></i>&nbsp;<span>30 GB de regalo en tu línea móvil</span></li>",
+        "precio": 2500,
+        "categoria":"PORTABILIDAD"
+    }
+]
