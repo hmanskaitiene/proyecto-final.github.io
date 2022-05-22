@@ -4,7 +4,7 @@ import {confirmProduct,cleanErrors,cambioMedioPago} from "./form.js";
 
 //Función que cargar los productos en el catalogo
 async function loadInitialData(){
-    const response = await fetch("/assets/data.json");
+    const response = await fetch("./assets/data.json");
     const products_json = await response.json();
 
     products_json.forEach( p => {
