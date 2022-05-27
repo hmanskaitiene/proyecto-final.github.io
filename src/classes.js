@@ -78,6 +78,7 @@ class Solicitud {
             solicitud_activa = JSON.parse(localStorage.getItem('solicitud_activa'));
         } else {
             this.setStorage();
+            solicitud_activa = localStorage.getItem('solicitud_activa');
         }
         return solicitud_activa;
     }
