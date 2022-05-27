@@ -1,41 +1,44 @@
-import {solicitud,Cliente,mp_credito,mp_efectivo,mp_debito_automatico} from "./classes.js";
-import {renderPanel,renderPrecioFinalHtml } from "./render.js";
+import {solicitud,Cliente,mp_credito,mp_efectivo,mp_debito_automatico,cupones} from "./classes.js";
+import {renderPanel,renderPrecioFinalHtml,renderbtnSolicitudNavBar } from "./render.js";
 
 //Función que valida los datos ingresados y carga la solicitud
 const formValid = () => {
-    const user_name = document.querySelector('#user_name');
-    const user_surname = document.querySelector('#user_surname');
-    const user_email = document.querySelector('#user_email');
-    const user_pay_method = document.querySelector('#user_pay_method');
+    const frmSolicitud = new FormData(document.querySelector('#frmSolicitud'))
+    const user_name = frmSolicitud.get('user_name');
+    const user_surname = frmSolicitud.get('user_surname');
+    const user_email = frmSolicitud.get('user_email');
+    const user_pay_method = frmSolicitud.get('user_pay_method');
     cleanErrors();
 
     let form_validation = true;
 
-    if (!isRequired(user_name.value)){
-        showError(user_name, 'Este es un campo requerido');
+    if (!isRequired(user_name)){
+        showError('user_name', 'Este es un campo requerido');
         form_validation = false;
     }
-    if (!isRequired(user_surname.value)){
-        showError(user_surname, 'Este es un campo requerido');
+    if (!isRequired(user_surname)){
+        showError('user_surname', 'Este es un campo requerido');
         form_validation = false;
     }
-    if (!isRequired(user_email.value)){
-        showError(user_email, 'Este es un campo requerido');
+    if (!isRequired(user_email)){
+        showError('user_email', 'Este es un campo requerido');
         form_validation = false;
-    } else if (!isEmailValid(user_email.value)) {
-        showError(user_email, 'No es un email válido');
+    } else if (!isEmailValid(user_email)) {
+        showError('user_email', 'No es un email válido');
         form_validation = false;
     }
-    if (!isRequired(user_pay_method.value)){
-        showError(user_pay_method, 'Este es un campo requerido');
+    if (!isRequired(user_pay_method)){
+        showError('user_pay_method', 'Este es un campo requerido');
         form_validation = false;
     }
     
     if (form_validation) {
         solicitud.setCliente(
-            new Cliente(user_name.value,user_surname.value,user_email.value)
+            new Cliente(user_name,user_surname,user_email)
         )
         solicitud.activa = true;
+        solicitud.setStorage();
+        renderbtnSolicitudNavBar();
     }
 
     return form_validation;
@@ -49,7 +52,8 @@ const isEmailValid = (email) => {
     return re.test(email);
 };
 
-const showError = (input, message) => {
+export const showError = (input_id, message) => {
+    const input = document.querySelector(`#${input_id}`);
     input.classList.add('is-invalid');
     const error = input.parentElement.querySelector('.invalid-feedback');
     error.textContent = message;
@@ -60,6 +64,8 @@ export const cleanErrors = () => {
     elements.forEach(function (element) {
         element.classList.remove('is-invalid');
     });
+    document.querySelector('#user_pay_coupon').value = '';
+    
 }
 
 //Función que se realiza calculos al cambiar de medio de pago
@@ -84,7 +90,7 @@ export const cambioMedioPago = () => {
     renderPrecioFinalHtml()
  }
 //Función que se muestra alerta exitosa al cargar solicitud
-export const confirmProduct = () => {
+export const confirmSolicitud = () => {
     if (formValid()){
         const modal = bootstrap.Modal.getInstance(document.querySelector('#modal-product'));
         modal.hide();
@@ -102,9 +108,10 @@ export const confirmProduct = () => {
 }
 
 //Función que se muestra alerta al eliminar la solicitud
-export const deleteProduct = () => {
+export const deleteSolicitud = () => {
     solicitud.cancelar();
     renderPanel();
+    renderbtnSolicitudNavBar();
     Toastify({
         text: "La solicitud ha sido eliminada",
         duration: 3000,
@@ -116,3 +123,19 @@ export const deleteProduct = () => {
       }).showToast();
 }
 
+//Función que busca cupón de descuento
+export const searchCoupon = () => {
+    const user_coupon = document.getElementById('user_pay_coupon');
+    user_coupon.classList.remove('is-invalid');
+    const descuento = cupones.find(c => c.codigo === user_coupon.value)
+
+    if (descuento === undefined){
+        showError('user_pay_coupon', 'No existe el cupón ingresado');
+        solicitud.setCupon(0);
+    } else {
+        solicitud.setCupon(descuento.descuento);
+    }
+    solicitud.calcularPrecioFinal()
+    renderPrecioFinalHtml();
+    document.getElementById('btn_coupon_validate').textContent = 'Validar cupon';
+}

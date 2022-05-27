@@ -17,7 +17,7 @@
             <div class="container-fluid justify-content-start">
               <a class="navbar-brand"><i class="bi bi-globe"></i>&nbsp;<span class="fs-4">ComunicAR</span></a>
               <div class="d-flex">
-                <button class="btn btn-sm btn-outline-success" type="button"  data-bs-toggle="offcanvas" data-bs-target="#offcanvas_panel" aria-controls="offcanvasExample">Solicitudes</button>
+                <button id="btn-solicitud-navbar" class="btn btn-sm btn-outline-success position-relative" type="button"  data-bs-toggle="offcanvas" data-bs-target="#offcanvas_panel" aria-controls="offcanvasExample"></button>
               </div>
             </div>
         </nav>
@@ -36,6 +36,7 @@
     <div class="container">
         <div class="row mt-3 mb-5">
             <div class="col text-center">
+                <img src="./img/banner.jpg" class="img-fluid rounded mb-3 d-none d-md-block" alt="...">
                 <h3>Elegí el mejor combo para vos</h3>
             </div>
         </div>
@@ -89,62 +90,83 @@
                 <h5 class="modal-title" id="modal-product-title">Solicitud de producto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <form id="frmSolicitud" class="needs-validation" novalidate>
                 <div class="modal-body">
-                    <div id="alert-product-active" class="alert alert-info " style="display: none" role="alert">
-                      <i class="bi bi-info-circle-fill"></i> Actualmente tiene un solicitud activa.
+                  <div id="alert-product-active" class="alert alert-info " style="display: none" role="alert">
+                    <i class="bi bi-info-circle-fill"></i> Actualmente tiene un solicitud activa.
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="user_name" class="form-label">Nombre</label>
+                      <input type="text" class="form-control" id="user_name" name="user_name" value="" required>
+                      <div class="invalid-feedback"></div>
                     </div>
-                    <form class="row g-3 needs-validation" novalidate>
-                        <div class="col-md-6">
-                          <label for="user_name" class="form-label">Nombre</label>
-                          <input type="text" class="form-control" id="user_name" value="" required>
-                          <div class="invalid-feedback"></div>
+                    <div class="col-md-6">
+                      <label for="user_surname" class="form-label">Apellido</label>
+                      <input type="text" class="form-control" id="user_surname" name="user_surname"  value="" required>
+                      <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="col-md-12">
+                      <label for="user_email" class="form-label">Email</label>
+                      <input type="email" class="form-control" id="user_email" name="user_email" value="" required>
+                      <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="col-md-12">
+                      <label for="user_pay_method" class="form-label">Medio de pago</label>
+                      <select class="form-select" id="user_pay_method" name="user_pay_method" required>
+                          <option selected value="">Seleccione</option>
+                          <option value="1">Efectivo/Tarjeta de débito - 10% OFF</option>
+                          <option value="2">Tarjeta de crédito</option>
+                          <option value="3">Débito automático - 20% OFF</option>
+                      </select>
+                      <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="col-md-12">
+                      <label for="user_pay_coupon" class="form-label">Cupón de descuento</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Ingrese cupón" name="user_pay_coupon" id="user_pay_coupon">
+                        <button class="btn btn-outline-primary" type="button" id="btn_coupon_validate">Validar cupon</button>
+                        <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="focus" data-bs-html="true" data-bs-content="<b>Códigos de prueba</b></br>cupon1 :$500</br>cupon2 :$700</br>cupon3 :$800</br>">
+                          <i class="bi bi-question-circle"></i>
+                        </button>
+                        <div class="invalid-feedback"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-2">
+                    <div class="col-md-12">
+                      <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0" id="label-product-name"></h6>
                         </div>
-                        <div class="col-md-6">
-                          <label for="user_surname" class="form-label">Apellido</label>
-                          <input type="text" class="form-control" id="user_surname" value="" required>
-                          <div class="invalid-feedback"></div>
+                        <span class="text-muted" id="product-price"></span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between lh-sm d-none" id="li-product-discount">
+                        <div>
+                            <h6 class="my-0" id="label-product-name">Descuento medio de pago</h6>
                         </div>
-                        <div class="col-md-12">
-                          <label for="user_email" class="form-label">Email</label>
-                          <input type="text" class="form-control" id="user_email" value="" required>
-                          <div class="invalid-feedback"></div>
+                        <span class="text-success" id="product-discount"></span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between lh-sm d-none" id="li-product-cupon">
+                        <div>
+                            <h6 class="my-0" id="label-product-name">Descuento cupón</h6>
                         </div>
-                        <div class="col-md-12">
-                          <label for="user_pay_method" class="form-label">Medio de pago</label>
-                          <select class="form-select" id="user_pay_method" required>
-                              <option selected value="">Seleccione</option>
-                              <option value="1">Efectivo/Tarjeta de débito - 10% OFF</option>
-                              <option value="2">Tarjeta de crédito</option>
-                              <option value="3">Débito automático - 20% OFF</option>
-                          </select>
-                          <div class="invalid-feedback"></div>
+                        <span class="text-success" id="product-cupon"></span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0"><strong>Precio final</strong></h6>
                         </div>
-                        <div class="col-md-12">
-                          <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0" id="label-product-name"></h6>
-                            </div>
-                            <span class="text-muted" id="product-price"></span>
-                          </li>
-                          <li class="list-group-item d-flex justify-content-between lh-sm d-none" id="li-product-discount">
-                            <div>
-                                <h6 class="my-0" id="label-product-name">Descuento medio de pago</h6>
-                            </div>
-                            <span class="text-success" id="product-discount"></span>
-                          </li>
-                          <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0"><strong>Precio final</strong></h6>
-                            </div>
-                            <strong id="product-total-price"></strong>
-                          </li>
-                        </div>
-                    </form>
+                        <strong id="product-total-price"></strong>
+                      </li>
+                    </div>
+                  </div>
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button id="modal-product-btn-confirm" type="button" class="btn btn-primary" data-product-name="">Confirmar</button>
+                <button id="modal-product-btn-confirm" type="submit" class="btn btn-primary">Confirmar</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -162,7 +184,6 @@
 		</div>
 	</footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script> -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script type="module" src="src/script.js"></script>
   </body>
