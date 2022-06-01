@@ -1,5 +1,6 @@
 import {solicitud,Cliente,mp_credito,mp_efectivo,mp_debito_automatico,cupones} from "./classes.js";
-import {renderPanel,renderPrecioFinalHtml,renderbtnSolicitudNavBar } from "./render.js";
+import {renderPanel,renderPrecioFinalHtml,renderbtnSolicitudNavBar,renderTurnos,renderToasty } from "./render.js";
+const API_WEATHER_KEY = '268ae32af07cc789e5c0bb5f23adf23e';
 
 //Función que valida los datos ingresados y carga la solicitud
 const formValid = () => {
@@ -38,6 +39,7 @@ const formValid = () => {
         )
         solicitud.activa = true;
         solicitud.setStorage();
+        solicitud.eliminarTurno();
         renderbtnSolicitudNavBar();
     }
 
@@ -89,21 +91,13 @@ export const cambioMedioPago = () => {
     solicitud.calcularPrecioFinal()
     renderPrecioFinalHtml()
  }
+
 //Función que se muestra alerta exitosa al cargar solicitud
 export const confirmSolicitud = () => {
     if (formValid()){
         const modal = bootstrap.Modal.getInstance(document.querySelector('#modal-product'));
         modal.hide();
-
-        Toastify({
-            text: "La solicitud ha sido registrada",
-            duration: 3000,
-            gravity: "top",
-            position: "right",
-            style: {
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
-              }
-          }).showToast();
+        renderToasty('success','La solicitud ha sido registrada');
     }
 }
 
@@ -112,15 +106,7 @@ export const deleteSolicitud = () => {
     solicitud.cancelar();
     renderPanel();
     renderbtnSolicitudNavBar();
-    Toastify({
-        text: "La solicitud ha sido eliminada",
-        duration: 3000,
-        gravity: "top",
-        position: "right",
-        style: {
-            background: "linear-gradient(to right, #ff5f6d, #ffc371)"
-          }
-      }).showToast();
+    renderToasty('error','La solicitud ha sido eliminada');
 }
 
 //Función que busca cupón de descuento
@@ -138,4 +124,22 @@ export const searchCoupon = () => {
     solicitud.calcularPrecioFinal()
     renderPrecioFinalHtml();
     document.getElementById('btn_coupon_validate').textContent = 'Validar cupon';
+}
+
+//Función que buscar los datos de ubicación del browser
+export const getGeoData = (data) => {
+    let lat = data.coords.latitude;
+    let lon = data.coords.longitude;
+    fetch (`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&lang=es&cnt=13&appid=${API_WEATHER_KEY}`)
+    .then(function(resp) { return resp.json() })
+    .then(function(data) { renderTurnos(data) });
+ }
+
+ //Función que se encarga de asignar el turno
+ export const solicitarTurno = (e) => {
+    const fecha_turno = e.target.getAttribute('data-date')
+    solicitud.setFechaTurno(fecha_turno);
+    document.querySelector('#offcanvas_panel_product_turn').innerHTML = '';
+    renderPanel();
+    renderToasty('success',`El turno ha sido otorgado para el: ${fecha_turno}`);
 }

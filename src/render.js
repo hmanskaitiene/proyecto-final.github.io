@@ -1,5 +1,5 @@
 import {solicitud} from "./classes.js";
-import { deleteSolicitud } from "./form.js";
+import { deleteSolicitud,solicitarTurno } from "./form.js";
 
 //Función que renderiza el HTML de una categoría
 export const renderCategory = (id, products) => {
@@ -24,7 +24,6 @@ export const renderCategory = (id, products) => {
     } else {
         html += `<p>No hay productos para la categoría seleccionada</p>`;
     }
-
     html+="</div>";
     document.getElementById(id).innerHTML = html
 }
@@ -33,6 +32,8 @@ export const renderCategory = (id, products) => {
 export const renderPanel = () => {
     let div_product_active = document.querySelector('#offcanvas_panel_product_active')
     div_product_active.innerHTML = '';
+
+    document.querySelector('#offcanvas_panel_product_turn').innerHTML = '';
 
     const solicitud_activa = solicitud.getStorage();
 
@@ -91,8 +92,26 @@ export const renderPanel = () => {
         li.appendChild(li_div3);
 
         ul.appendChild(li);
+
+        let fecha_turno = localStorage.getItem('fecha_turno');
+        if (fecha_turno !== null){
+            let li_div3 = document.createElement('div')
+            li_div3.classList.add('d-flex','justify-content-between');
+            let div31 = document.createElement('div')
+            div31.innerHTML = `<h6>Fecha de turno</h6>`;
+            let div32 = document.createElement('div')
+            div32.innerHTML = `<strong >${fecha_turno}</strong>`;
+            li_div3.appendChild(div31);
+            li_div3.appendChild(div32);
+            li.appendChild(li_div3);
+            document.querySelector('#btn_buscar_turnos').style.display = 'none';
+        } else {
+            document.querySelector('#btn_buscar_turnos').style.display = 'block';
+        }
+
         div_product_active.appendChild(li);
     } else {
+        document.querySelector('#btn_buscar_turnos').style.display = 'none';
         div_product_active.textContent = `Sin solicitud de producto`;
     }
 }   
@@ -142,4 +161,75 @@ export const renderbtnSolicitudNavBar = () => {
    } else {
         document.querySelector('#btn-solicitud-navbar').innerHTML = `Solicitudes`;
    }
+}
+
+//Función que renderiza todos los turnos
+export const renderTurnos = ({list}) => {
+    document.querySelector('#btn_buscar_turnos').innerHTML = 'Buscar turnos disponibles';
+    let divTurnos = document.querySelector('#offcanvas_panel_product_turn');
+    divTurnos.innerHTML = `<h5>Proximos turnos:</h5><div class="form-text">
+    Solo aparecerán disponibles los turnos cuando las condiciones climáticas lo permitan.
+    </div>`;
+
+    let ul = document.createElement('ul');
+    ul.classList.add('list-group');
+    list.forEach(({dt,weather}) => {
+        const fecha_clima = new Date(dt*1000);
+        //Sólo muestra los turnos disponibles entre las 9 hs y las 18 hs
+        if (fecha_clima.getHours() >= 9 && fecha_clima.getHours() <=18){
+            const fecha_formateada = `${fecha_clima.toLocaleDateString()} 
+            ${String(fecha_clima.getHours()).padStart(2,'0')}:${String(fecha_clima.getMinutes()).padStart(2,'0')}`;
+            ul.appendChild(renderTurno(fecha_formateada,weather[0]));
+        }
+    });
+    divTurnos.append(ul);
+ }
+
+ //Función que renderiza un turno en particular
+ const renderTurno = (date,data) => {
+    let li = document.createElement('li');
+    li.classList.add('list-group-item','d-flex','justify-content-between','align-items-center','list-group-item-success');
+    const image = document.createElement("img");
+    image.classList.add('img-fluid');
+    image.style.height = '25px';
+    image.src = `https://openweathermap.org/img/wn/${data.icon}.png`;
+    image.title = data.description
+
+    li.innerHTML =`${date.toLocaleString()}`
+    li.appendChild(image)
+    if (data.id >=800){
+        const button = document.createElement('button')
+        button.classList.add('btn','btn-success','btn-sm')
+        button.setAttribute('data-date',`${date.toLocaleString()}`)
+        button.textContent = 'Solicitar'
+        button.onclick = solicitarTurno;
+        li.appendChild(button)
+    } else {
+        const span = document.createElement('span')
+        span.classList.add('badge','bg-danger','rounded-pill');
+        span.textContent = 'No disponible';
+        li.appendChild(span);
+    }
+    return li;
+ }
+
+ //Función que renderiza el toastify
+export const renderToasty = (tipo,texto) => {
+    let background = '';
+    if (tipo === 'success'){
+        background = '#00b09b, #96c93d';
+    }
+    if (tipo === 'error'){
+      background = '#ff5f6d, #ffc371';
+    }
+ 
+    Toastify({
+        text: texto,
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        style: {
+            background: `linear-gradient(to right, ${background})`
+          }
+      }).showToast();
 }

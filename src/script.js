@@ -1,6 +1,6 @@
 import {Producto,solicitud,catalogo} from "./classes.js";
-import {renderCategory,renderAlert,renderPanel,renderbtnSolicitudNavBar } from "./render.js";
-import {confirmSolicitud,cleanErrors,cambioMedioPago, searchCoupon,showError} from "./form.js";
+import {renderCategory,renderAlert,renderPanel,renderbtnSolicitudNavBar,renderTurnos } from "./render.js";
+import {confirmSolicitud,cleanErrors,cambioMedioPago, searchCoupon,showError,getGeoData} from "./form.js";
 
 //Función que cargar los productos en el catalogo
 async function loadInitialData(){
@@ -40,8 +40,8 @@ document.getElementById('offcanvas_panel').addEventListener('show.bs.offcanvas',
 })
 
 //Evento que se ejecuta al confirmar la solicitud
-document.getElementById('frmSolicitud').addEventListener('submit', function (e) {
-    e.preventDefault();
+document.getElementById('modal-product-btn-confirm').addEventListener('click', function (e) {
+    //e.preventDefault();
     confirmSolicitud();
 })
 
@@ -49,7 +49,6 @@ document.getElementById('frmSolicitud').addEventListener('submit', function (e) 
 document.getElementById('btn_coupon_validate').addEventListener('click', function (e) {
     if (document.getElementById('user_pay_coupon').value != ""){
         document.getElementById('btn_coupon_validate').textContent = 'Buscando...';
-
         //Simula un tiempo de espera de 1 segundo como parecer que busca en la base
         setTimeout(searchCoupon,1000);
     } else {
@@ -57,15 +56,22 @@ document.getElementById('btn_coupon_validate').addEventListener('click', functio
     }
 })
 
-//Evento que se ejecuta cuando se carga el DOM para habilitar los popover de bootstrap
+//Evento que se ejecuta cuando se buscan los turnos disponibles
+document.getElementById('btn_buscar_turnos').addEventListener('click', function (e) {
+    document.querySelector('#btn_buscar_turnos').innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Buscando turnos disponibles...`
+    document.querySelector('#offcanvas_panel_product_turn').innerHTML = '';
+    navigator.geolocation.getCurrentPosition(getGeoData,function(){
+        document.querySelector('#btn_buscar_turnos').innerHTML = 'Buscar turnos disponibles'
+    });
+})
+
+//Evento que se ejecuta cuando se carga el DOM
 document.addEventListener("DOMContentLoaded", function(){
-    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-    var popoverList = popoverTriggerList.map(function(element){
+    loadInitialData();
+    renderbtnSolicitudNavBar();
+    const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+    popoverTriggerList.map(function(element){
         return new bootstrap.Popover(element);
     });
 });
-
-
-//Funciones que se ejecutan al inicio
-loadInitialData();
-renderbtnSolicitudNavBar();

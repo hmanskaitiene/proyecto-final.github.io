@@ -66,6 +66,7 @@ class Solicitud {
     cancelar = () => {
         this.activa = false;
         this.setStorage();
+        this.eliminarTurno();
     }
     limpiarDescuentos = () => {
         this.descuento = 0;
@@ -85,6 +86,13 @@ class Solicitud {
 
     setStorage = () => {
             localStorage.setItem('solicitud_activa',JSON.stringify(this))
+    }
+
+    setFechaTurno = (fecha) => {
+        localStorage.setItem('fecha_turno',fecha)
+    }
+    eliminarTurno = () => {
+        localStorage.removeItem('fecha_turno');
     }
 }
 
