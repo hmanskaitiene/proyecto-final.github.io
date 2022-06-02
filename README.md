@@ -1,7 +1,7 @@
 
 # Proyecto final para Coderhouse para el curso de Javascript
 
-- [Demo](shorturl.at/nxR46)
+- [Demo](https://hmanskaitiene.github.io/proyecto-final.github.io/)
 
 Este proyecto está pensando para una empresa ficticia de telecomunicaciones. 
 
