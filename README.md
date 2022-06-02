@@ -1,5 +1,5 @@
 
-# Proyecto final para Coderhouse para el curso de Javascript
+# Proyecto final de Coderhouse para el curso de Javascript
 
 - [Demo](https://hmanskaitiene.github.io/proyecto-final.github.io/)
 
