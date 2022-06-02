@@ -1,5 +1,20 @@
-import {solicitud} from "./classes.js";
+import { Producto,solicitud,catalogo } from "./classes.js";
 import { deleteSolicitud,solicitarTurno } from "./form.js";
+
+//Función que cargar los productos en el catalogo
+export const loadInitialData = async () => {
+    const response = await fetch("./assets/data.json");
+    const products_json = await response.json();
+
+    products_json.forEach( p => {
+        catalogo.agregarProducto(new Producto(p.id,p.nombre,p.precio,p.descripcion,p.categoria));
+    })
+
+    renderCategory('pills-internet', catalogo.getCategoria("INTERNET"));
+    renderCategory('pills-combos', catalogo.getCategoria("COMBOS"));
+    renderCategory('pills-streaming', catalogo.getCategoria("STREAMING"));
+    renderCategory('pills-portabilidad', catalogo.getCategoria("PORTABILIDAD"));
+}
 
 //Función que renderiza el HTML de una categoría
 export const renderCategory = (id, products) => {
@@ -98,7 +113,7 @@ export const renderPanel = () => {
             let li_div3 = document.createElement('div')
             li_div3.classList.add('d-flex','justify-content-between');
             let div31 = document.createElement('div')
-            div31.innerHTML = `<h6>Fecha de turno</h6>`;
+            div31.innerHTML = `<h6>Fecha de instalación</h6>`;
             let div32 = document.createElement('div')
             div32.innerHTML = `<strong >${fecha_turno}</strong>`;
             li_div3.appendChild(div31);
@@ -156,7 +171,7 @@ export const renderbtnSolicitudNavBar = () => {
     if (solicitud_activa.activa == true){
        document.querySelector('#btn-solicitud-navbar').innerHTML = `Solicitudes
        <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-         <span class="visually-hidden">New alerts</span>
+         <span class="visually-hidden">Solicitudes</span>
        </span>`;
    } else {
         document.querySelector('#btn-solicitud-navbar').innerHTML = `Solicitudes`;
@@ -165,7 +180,7 @@ export const renderbtnSolicitudNavBar = () => {
 
 //Función que renderiza todos los turnos
 export const renderTurnos = ({list}) => {
-    document.querySelector('#btn_buscar_turnos').innerHTML = 'Buscar turnos disponibles';
+    document.querySelector('#btn_buscar_turnos').innerHTML = 'Buscar turnos de instalación disponibles';
     let divTurnos = document.querySelector('#offcanvas_panel_product_turn');
     divTurnos.innerHTML = `<h5>Proximos turnos:</h5><div class="form-text">
     Solo aparecerán disponibles los turnos cuando las condiciones climáticas lo permitan.

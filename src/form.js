@@ -1,5 +1,5 @@
-import {solicitud,Cliente,mp_credito,mp_efectivo,mp_debito_automatico,cupones} from "./classes.js";
-import {renderPanel,renderPrecioFinalHtml,renderbtnSolicitudNavBar,renderTurnos,renderToasty } from "./render.js";
+import { solicitud,Cliente,mp_credito,mp_efectivo,mp_debito_automatico,cupones } from "./classes.js";
+import { renderPanel,renderPrecioFinalHtml,renderbtnSolicitudNavBar,renderTurnos,renderToasty } from "./render.js";
 const API_WEATHER_KEY = '268ae32af07cc789e5c0bb5f23adf23e';
 
 //Función que valida los datos ingresados y carga la solicitud
